@@ -9,6 +9,10 @@ import { Button, Tooltip, Input, Popover, Slider, Divider, Upload, message, Sele
 import { UploadOutlined, CloseOutlined, FontSizeOutlined, BoldOutlined, AlignCenterOutlined, 
 AlignLeftOutlined, AlignRightOutlined, FileImageOutlined, UndoOutlined, RedoOutlined, MenuOutlined, FullscreenOutlined, CodeOutlined,
 DownloadOutlined, SaveOutlined, MenuFoldOutlined } from '@ant-design/icons';
+import { Tabs, Collapse } from 'antd';
+
+const { TabPane } = Tabs;
+const { Panel } = Collapse;
 
 const Sidebar = (props) => {
     const [text, settext] = useState(false)
@@ -53,7 +57,7 @@ const Sidebar = (props) => {
 
 
     const collapsedSidebarOpned = {
-        width: '350px',
+        width: '300px',
         opacity: 1
     }
 
@@ -65,12 +69,16 @@ const Sidebar = (props) => {
     }, [props.collapsed])
 
 
+    const elements = [{
+        type: 'Form Elements',
+        subElements: ['input', 'radio', ]
+    }]
 
     return (
         <div style={{ padding: '0px' }}>
 
             <div style={collapsed == true ? { ...collapsedSidebar, ...collapsedSidebarClosed } : { ...collapsedSidebar, ...collapsedSidebarOpned }}>
-            <div style={{borderBottom:'1px solid #dddbdb', padding: '5px', display: 'flex', justifyContent: 'space-around', background: 'white' }}>
+            <div style={{borderBottom:'1px solid #dddbdb', padding: '5px', display: 'flex', background: 'white' }}>
        
                 {/* <Tooltip title="Change Color" placement="leftBottom">
                     <Button
@@ -139,8 +147,38 @@ const Sidebar = (props) => {
                 </Tooltip>
                      </div>
 
-                <div style={{ padding: '10px' }}>
-                    {props.children}
+                    <Tabs 
+                        centered={true} 
+                        defaultActiveKey="1" 
+                        tabBarStyle={{fontSize:'12px'}} 
+                        onChange={()=>{
+
+                        }}>
+                        <TabPane tab="Design" key="1">
+                            {props.children}
+                        </TabPane>
+                        <TabPane tab="Inspect" key="2">
+                            Content of Tab Pane 2
+                        </TabPane>
+                        <TabPane tab="Library" key="3">
+                            <Collapse accordion={true} defaultActiveKey={['1']} ghost>
+                            {elements.map((x)=>{
+                                return(
+                                    <Panel header={x.type} key={x.type}>
+                                        {
+                                            x.subElements.map((x)=>{
+                                                return(
+                                                    <p>{x}</p>
+                                                )
+                                            })
+                                        }
+                                    </Panel>
+                                )
+                            })}
+                            </Collapse>
+                        </TabPane>
+                    </Tabs>
+                
                     {/* <p>Text</p>
                     <TextArea
                         value={element ? element.innerText : ''}
@@ -164,7 +202,7 @@ const Sidebar = (props) => {
                             applyCssProperty([{ type: 'background', value: e.target.value }])
                         }} >
                     </input> */}
-                </div>
+               
             </div>
         </div>
     )

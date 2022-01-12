@@ -11,6 +11,7 @@ import { UploadOutlined, CloseOutlined, FontSizeOutlined, BoldOutlined, AlignCen
 AlignLeftOutlined, AlignRightOutlined, FileImageOutlined, UndoOutlined, RedoOutlined, MenuOutlined, FullscreenOutlined, CodeOutlined,
 DownloadOutlined, SaveOutlined, MenuFoldOutlined } from '@ant-design/icons';
 import Sidebar from './sidebar'
+import { downloadHtml } from './utils/functions'
 
 const { TextArea } = Input;
 const { Search } = Input;
@@ -215,18 +216,19 @@ useEffect(() => {
         return (
             <>
                 {args && args.type == 'backgroundImage' &&
-                    <p>Background Image</p>
+                    <p style={{fontSize:'11px', fontWeight:'bold'}}>Fill</p>
                 }
-                <Search
+                <Input
+                    className="expanding-input"
                     placeholder="Image Url"
-                    enterButton="Done"
+                    // enterButton="Done"
                     defaultValue={args && args.url}
-                    onSearch={value => {
-                        if (!value) {
-                            return
-                        }
-                        replaceImage(value, args, type)
-                    }}
+                    // onSearch={value => {
+                    //     if (!value) {
+                    //         return
+                    //     }
+                    //     replaceImage(value, args, type)
+                    // }}
                     onChange={(e) => {
                         if (!e.target.value) {
                             return
@@ -234,7 +236,7 @@ useEffect(() => {
                         replaceImage(e.target.value, args, type)
                     }}
                 />
-                <Divider>Or</Divider>
+     
                 <Upload
                     accept=".png, .jpeg, .jpg"
                     onChange={async (e) => {
@@ -254,7 +256,7 @@ useEffect(() => {
                             })
                     }}>
                     <Button>
-                        <UploadOutlined />Click to Upload
+                        <UploadOutlined />
                     </Button>
                 </Upload>
                 {/* {args.type == 'backroundImage' && 
@@ -882,14 +884,7 @@ useEffect(() => {
 
     // let tooltip = document.getElementById('tooltip-span')
 
-    const downloadHtml = () =>{
-        let innerHTML = getHtml()
-        var element = document.createElement('a');
-        element.setAttribute('href','data:text/plain;charset=utf-8, ' + encodeURIComponent(innerHTML));
-        element.setAttribute('download', 'index.html');
-        document.body.appendChild(element);
-        element.click();
-    }
+
 
     return (
         <div style={{ border: '1px solid #cbcbcb' }} >
@@ -968,7 +963,8 @@ useEffect(() => {
                         type="link"
                         icon={<DownloadOutlined/>}
                         onClick={() => {
-                           downloadHtml()
+                            let innerHTML = getHtml()
+                           downloadHtml(innerHTML)
                         }}></Button>
                 </Tooltip>
                    {/* <Tooltip title="Upload Html">
@@ -1001,10 +997,11 @@ useEffect(() => {
                 element={element}
             // updateText={updateText} 
             >
-
+                <div style={{padding:'15px 10px', borderBottom: '1px solid #e5e5e5'}}>
                 {element &&
                     imagePopup({ type: 'backgroundImage', url: element.style.getPropertyValue('background-image').replace('url', '').replace('(', '').replace(')', '').replaceAll('"', '') })
                 }
+                </div>
 
             </Sidebar>
 

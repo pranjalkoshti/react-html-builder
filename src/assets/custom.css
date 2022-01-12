@@ -1,3 +1,13 @@
 .react-cust-editor-hover { 
   outline: 1px dashed grey;
 }
+
+.expanding-input{
+  width: 20%;
+  transition: all 1000ms;
+  border-radius: 20px;
+  margin-right: 10px;
+}
+.expanding-input:focus {
+  width: 75%;
+}
